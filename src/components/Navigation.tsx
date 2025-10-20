@@ -21,8 +21,8 @@ const Navigation = () => {
             to="/" 
             className="flex items-center gap-3 text-foreground hover:opacity-90 transition-opacity"
           >
-            <img src={logo} alt="Coliseu Arquitetura" className="h-10 w-auto" />
-            <span className="font-semibold text-lg hidden sm:inline">Coliseu Arquitetura</span>
+            <img src={logo} alt="Nastro Arquitetura" className="h-10 w-auto" />
+            <span className="font-semibold text-lg hidden sm:inline">Nastro Arquitetura</span>
           </Link>
           
           {/* Navigation Links */}

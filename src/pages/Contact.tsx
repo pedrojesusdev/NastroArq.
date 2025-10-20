@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -15,7 +15,6 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     message: ""
   });
 
@@ -23,7 +22,7 @@ const Contact = () => {
     e.preventDefault();
     
     // Validação básica
-    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+    if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: "Campos obrigatórios",
         description: "Por favor, preencha todos os campos.",
@@ -59,7 +58,6 @@ const Contact = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
           message: formData.message,
           timestamp: new Date().toISOString()
         }),
@@ -124,17 +122,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                    <p className="text-muted-foreground">contato@arquitetura.com</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Telefone</h3>
-                    <p className="text-muted-foreground">(11) 99999-9999</p>
+                    <p className="text-muted-foreground">nastro.arquitetura@gmail.com</p>
                   </div>
                 </div>
                 
@@ -143,21 +131,13 @@ const Contact = () => {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">Endereço</h3>
+                    <h3 className="font-semibold text-foreground mb-1">Localização</h3>
                     <p className="text-muted-foreground">
-                      São Paulo, SP<br />
+                      Aracaju/SE<br />
                       Brasil
                     </p>
                   </div>
                 </div>
-              </div>
-              
-              <div className="mt-12 p-6 bg-card rounded-2xl shadow-md">
-                <h3 className="font-semibold text-foreground mb-3">Horário de Atendimento</h3>
-                <p className="text-muted-foreground">
-                  Segunda a Sexta: 9h às 18h<br />
-                  Sábado: 9h às 13h
-                </p>
               </div>
             </div>
             
@@ -186,19 +166,6 @@ const Contact = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="seu@email.com"
-                      className="mt-2"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="phone" className="text-foreground">Telefone *</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="(11) 99999-9999"
                       className="mt-2"
                       required
                     />

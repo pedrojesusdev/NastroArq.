@@ -9,15 +9,13 @@ const About = () => {
       name: "Cecília Reis",
       role: "CEO e Arquiteta",
       image: ceciliaReis,
-      instagram: "_cecilia_reis",
-      description: "Especialista em design de interiores com mais de 10 anos de experiência em projetos residenciais de alto padrão."
+      instagram: "_cecilia_reis"
     },
     {
       name: "Victor Batista",
       role: "CEO e Arquiteto",
       image: victorBatista,
-      instagram: "victorbatista.arq",
-      description: "Focado em arquitetura sustentável e otimização de espaços, trazendo inovação e funcionalidade para cada projeto."
+      instagram: "victorbatista.arq"
     }
   ];
 
@@ -62,7 +60,7 @@ const About = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Conheça os Responsáveis por Realizar o Seu Sonho
+              Conheça os responsáveis por realizar o seu sonho.
             </h2>
           </div>
           
@@ -88,9 +86,6 @@ const About = () => {
                   </h3>
                   <p className="text-primary font-medium mb-4">
                     {member.role}
-                  </p>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {member.description}
                   </p>
                   <a 
                     href={`https://www.instagram.com/${member.instagram}`}

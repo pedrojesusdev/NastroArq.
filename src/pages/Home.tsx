@@ -2,8 +2,8 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import project1 from "@/assets/project-1.jpg";
-import project2 from "@/assets/project-2.jpg";
+import projectLiving1 from "@/assets/project-living1.png";
+import projectLiving2 from "@/assets/project-living2.png";
 
 const Home = () => {
   return (
@@ -26,8 +26,8 @@ const Home = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="group relative overflow-hidden rounded-2xl aspect-[4/3] animate-scale-in">
               <img 
-                src={project1} 
-                alt="Projeto de cozinha moderna"
+                src={projectLiving1} 
+                alt="Living Minimalista"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -35,8 +35,8 @@ const Home = () => {
             
             <div className="group relative overflow-hidden rounded-2xl aspect-[4/3] animate-scale-in" style={{ animationDelay: "0.2s" }}>
               <img 
-                src={project2} 
-                alt="Projeto de quarto contemporâneo"
+                src={projectLiving2} 
+                alt="Sala de Estar Acolhedora"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
