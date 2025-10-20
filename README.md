@@ -1,4 +1,26 @@
-# Welcome to your Lovable project
+# Site de Arquitetura & Design
+
+Um site moderno e elegante para escritório de arquitetura, construído com React, TypeScript e Tailwind CSS.
+
+## 🎨 Características
+
+- **Design Moderno**: Interface clean e minimalista com paleta de cores quentes
+- **Responsivo**: Totalmente adaptado para desktop e mobile
+- **Formulário de Contato**: Integração com Google Sheets para captura de leads
+- **Navegação Suave**: Animações elegantes e transições fluidas
+- **SEO Otimizado**: Meta tags configuradas para melhor posicionamento
+
+## 📋 Páginas
+
+- **Home**: Hero section com call-to-action e preview de projetos
+- **Sobre**: Apresentação da equipe de arquitetos
+- **Projetos**: Galeria de trabalhos realizados
+- **Contato**: Formulário funcional com validação
+- **Obrigado**: Página de agradecimento após envio do formulário
+
+## 🚀 Configuração do Google Sheets
+
+Para conectar o formulário ao Google Sheets, siga o guia completo em `GOOGLE_SHEETS_SETUP.md`
 
 ## Project info
 
