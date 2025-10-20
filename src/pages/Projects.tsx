@@ -1,8 +1,9 @@
 import Navigation from "@/components/Navigation";
-import project1 from "@/assets/project-1.jpg";
-import project2 from "@/assets/project-2.jpg";
-import project3 from "@/assets/project-3.jpg";
-import project4 from "@/assets/project-4.jpg";
+import projectBar from "@/assets/project-bar.png";
+import projectBedroom from "@/assets/project-bedroom.png";
+import projectKitchen from "@/assets/project-kitchen.png";
+import projectLiving1 from "@/assets/project-living1.png";
+import projectLiving2 from "@/assets/project-living2.png";
 import { useState } from "react";
 
 const Projects = () => {
@@ -11,31 +12,38 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Cozinha Contemporânea",
+      title: "Área Gourmet Moderna",
       category: "Residencial",
-      image: project1,
-      description: "Projeto de cozinha moderna com madeira natural e mármore, criando um ambiente sofisticado e funcional."
+      image: projectBar,
+      description: "Espaço gourmet com design contemporâneo, combinando funcionalidade e conforto para momentos especiais."
     },
     {
       id: 2,
-      title: "Suite Master Minimalista",
+      title: "Suite Master Sofisticada",
       category: "Residencial",
-      image: project2,
-      description: "Quarto com design minimalista e materiais naturais, proporcionando tranquilidade e elegância."
+      image: projectBedroom,
+      description: "Quarto com design moderno e materiais nobres, criando um ambiente de descanso e elegância."
     },
     {
       id: 3,
-      title: "Banheiro Spa",
+      title: "Cozinha Integrada",
       category: "Residencial",
-      image: project3,
-      description: "Banheiro luxuoso com terrazzo e metais dourados, criando uma atmosfera de spa em casa."
+      image: projectKitchen,
+      description: "Cozinha contemporânea com madeira natural e iluminação premium, unindo beleza e funcionalidade."
     },
     {
       id: 4,
-      title: "Sala de Jantar Elegante",
+      title: "Living Minimalista",
       category: "Residencial",
-      image: project4,
-      description: "Espaço de jantar com pé-direito alto e lustre statement, perfeito para receber convidados."
+      image: projectLiving1,
+      description: "Sala de estar com design clean e linhas modernas, proporcionando amplitude e sofisticação."
+    },
+    {
+      id: 5,
+      title: "Sala de Estar Acolhedora",
+      category: "Residencial",
+      image: projectLiving2,
+      description: "Ambiente integrado com madeira e iluminação cênica, criando um espaço acolhedor e elegante."
     }
   ];
 

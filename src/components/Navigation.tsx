@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -19,10 +19,10 @@ const Navigation = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+            className="flex items-center gap-3 text-foreground hover:opacity-90 transition-opacity"
           >
-            <Home className="w-6 h-6" />
-            <span className="font-semibold text-lg hidden sm:inline">Arquitetura & Design</span>
+            <img src={logo} alt="Coliseu Arquitetura" className="h-10 w-auto" />
+            <span className="font-semibold text-lg hidden sm:inline">Coliseu Arquitetura</span>
           </Link>
           
           {/* Navigation Links */}

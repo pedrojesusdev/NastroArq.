@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-architecture.jpg";
+import heroImage from "@/assets/hero-team.jpg";
 
 const Hero = () => {
   return (
