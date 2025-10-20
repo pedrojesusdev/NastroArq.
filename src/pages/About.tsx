@@ -1,22 +1,22 @@
 import Navigation from "@/components/Navigation";
-import architect1 from "@/assets/architect-1.jpg";
-import architect2 from "@/assets/architect-2.jpg";
+import victorBatista from "@/assets/victor-batista.jpg";
+import ceciliaReis from "@/assets/cecilia-reis.jpg";
 import { Instagram } from "lucide-react";
 
 const About = () => {
   const team = [
     {
-      name: "Ana Paula Silva",
+      name: "Cecília Reis",
       role: "CEO e Arquiteta",
-      image: architect1,
-      instagram: "_anapaula_arquitetura",
+      image: ceciliaReis,
+      instagram: "_cecilia_reis",
       description: "Especialista em design de interiores com mais de 10 anos de experiência em projetos residenciais de alto padrão."
     },
     {
-      name: "Carlos Eduardo",
+      name: "Victor Batista",
       role: "CEO e Arquiteto",
-      image: architect2,
-      instagram: "carloseduardo.arq",
+      image: victorBatista,
+      instagram: "victorbatista.arq",
       description: "Focado em arquitetura sustentável e otimização de espaços, trazendo inovação e funcionalidade para cada projeto."
     }
   ];
