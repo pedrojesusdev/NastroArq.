@@ -47,7 +47,7 @@ const Contact = () => {
     try {
       // URL do Google Apps Script (webhook)
       // IMPORTANTE: Substituir pela URL real do seu script após configurá-lo
-      const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwmXtDrRSygFy03hlEtWApddeO8BY-vq6wNyundBpRK6DRwqhyPv1NTylcHqmGqbDSoDQ/exec';
       
       const response = await fetch(scriptURL, {
         method: 'POST',
