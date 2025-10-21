@@ -245,10 +245,24 @@ const Admin = () => {
           </form>
         </div>
 
+        {/* Google Sheets */}
+        <div className="bg-card rounded-2xl shadow-lg p-8 mb-12">
+          <h2 className="text-2xl font-bold text-foreground mb-6">
+            Planilha de Contatos
+          </h2>
+          <div className="w-full h-[600px] rounded-lg overflow-hidden">
+            <iframe
+              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQpqcHFjCxPqgZHjzEyN7RQXN-3Q7VmJQBYmXb0dqR1ZqXJhG7YgLXhCqr6KJh-hQ/pubhtml?widget=true&amp;headers=false"
+              className="w-full h-full border-0"
+              title="Planilha de Contatos"
+            />
+          </div>
+        </div>
+
         {/* Projects List */}
         <div className="bg-card rounded-2xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-foreground mb-6">
-            Projetos Existentes
+            Projetos Adicionados
           </h2>
 
           <div className="space-y-4">
