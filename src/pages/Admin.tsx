@@ -30,6 +30,8 @@ const Admin = () => {
     description: '',
     image_url: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -63,12 +65,35 @@ const Admin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUploading(true);
 
     try {
+      let imageUrl = formData.image_url;
+
+      // Upload image if a new file was selected
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('project-images')
+          .upload(filePath, imageFile);
+
+        if (uploadError) throw uploadError;
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('project-images')
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
       if (editingId) {
         const { error } = await supabase
           .from('projects')
-          .update(formData)
+          .update({ ...formData, image_url: imageUrl })
           .eq('id', editingId);
 
         if (error) throw error;
@@ -80,7 +105,7 @@ const Admin = () => {
       } else {
         const { error } = await supabase
           .from('projects')
-          .insert([formData]);
+          .insert([{ ...formData, image_url: imageUrl }]);
 
         if (error) throw error;
 
@@ -91,6 +116,7 @@ const Admin = () => {
       }
 
       setFormData({ title: '', category: '', description: '', image_url: '' });
+      setImageFile(null);
       setEditingId(null);
       fetchProjects();
     } catch (error: any) {
@@ -99,6 +125,8 @@ const Admin = () => {
         description: error.message,
         variant: 'destructive',
       });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -110,6 +138,7 @@ const Admin = () => {
       description: project.description,
       image_url: project.image_url,
     });
+    setImageFile(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -206,15 +235,29 @@ const Admin = () => {
             </div>
 
             <div>
-              <Label htmlFor="image_url">URL da Imagem</Label>
+              <Label htmlFor="image">Imagem do Projeto</Label>
               <Input
-                id="image_url"
-                value={formData.image_url}
-                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                required
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setImageFile(file);
+                  }
+                }}
                 className="mt-2"
-                placeholder="https://..."
               />
+              {editingId && formData.image_url && !imageFile && (
+                <p className="text-sm text-muted-foreground mt-2">
+                  Imagem atual: {formData.image_url.split('/').pop()}
+                </p>
+              )}
+              {imageFile && (
+                <p className="text-sm text-muted-foreground mt-2">
+                  Nova imagem selecionada: {imageFile.name}
+                </p>
+              )}
             </div>
 
             <div>
@@ -230,8 +273,8 @@ const Admin = () => {
             </div>
 
             <div className="flex gap-4">
-              <Button type="submit" size="lg">
-                {editingId ? 'Salvar Alterações' : 'Adicionar Projeto'}
+              <Button type="submit" size="lg" disabled={uploading}>
+                {uploading ? 'Enviando...' : editingId ? 'Salvar Alterações' : 'Adicionar Projeto'}
               </Button>
               {editingId && (
                 <Button
@@ -240,6 +283,7 @@ const Admin = () => {
                   size="lg"
                   onClick={() => {
                     setEditingId(null);
+                    setImageFile(null);
                     setFormData({ title: '', category: '', description: '', image_url: '' });
                   }}
                 >
