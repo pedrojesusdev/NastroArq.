@@ -162,9 +162,14 @@ const Admin = () => {
       
       <div className="container mx-auto px-4 pt-32 pb-20">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground">
-            Painel Administrativo
-          </h1>
+          <div>
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              Painel Administrativo
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Bem-vindo ao painel de gerenciamento
+            </p>
+          </div>
           <Button variant="outline" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             Sair
@@ -269,14 +274,14 @@ const Admin = () => {
           </p>
           <div className="w-full rounded-lg overflow-hidden border border-border">
             <iframe
-              src="https://docs.google.com/spreadsheets/d/1mSuXVcKOhZQ-_LyDp8nwwXC3DG8LRjdXcG7fZ_oVY1o/edit?usp=sharing"
+              src="https://docs.google.com/spreadsheets/d/178w-JxHgrEscy152xACejKjAk7WWhIU4QCLxjQafiuw/preview?gid=0"
               className="w-full h-[600px] border-0"
               title="Planilha de Contatos"
             />
           </div>
           <div className="mt-4 text-center">
             <a 
-              href="https://docs.google.com/spreadsheets/d/1mSuXVcKOhZQ-_LyDp8nwwXC3DG8LRjdXcG7fZ_oVY1o/edit"
+              href="https://docs.google.com/spreadsheets/d/178w-JxHgrEscy152xACejKjAk7WWhIU4QCLxjQafiuw/edit?gid=0#gid=0"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 text-sm underline"

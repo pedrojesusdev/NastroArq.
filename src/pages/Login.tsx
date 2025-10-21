@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation';
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [email, setEmail] = useState('nastro.arquitetura@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -113,8 +113,8 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  readOnly
-                  className="mt-2 bg-muted cursor-not-allowed"
+                  placeholder="seu@email.com"
+                  className="mt-2"
                 />
               </div>
 
