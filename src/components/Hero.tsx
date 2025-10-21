@@ -7,8 +7,11 @@ const Hero = () => {
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        className="absolute inset-0 bg-cover bg-no-repeat"
+        style={{ 
+          backgroundImage: `url(${heroImage})`,
+          backgroundPosition: '50% 35%'
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
       </div>

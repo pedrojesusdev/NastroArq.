@@ -17,33 +17,33 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 28 25% 15%;
 
-    --primary: 18 65% 55%;
+    --primary: 28 35% 45%;
     --primary-foreground: 36 50% 98%;
 
-    --secondary: 35 20% 88%;
+    --secondary: 30 25% 85%;
     --secondary-foreground: 28 25% 15%;
 
-    --muted: 35 15% 92%;
+    --muted: 35 15% 90%;
     --muted-foreground: 28 15% 45%;
 
-    --accent: 28 45% 65%;
+    --accent: 25 30% 55%;
     --accent-foreground: 36 50% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 36 50% 98%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 88%;
-    --ring: 18 65% 55%;
+    --border: 30 20% 85%;
+    --input: 30 20% 85%;
+    --ring: 28 35% 45%;
 
     --radius: 0.75rem;
 
     /* Architecture-specific colors */
-    --warm-sand: 35 40% 85%;
-    --terracotta: 18 65% 55%;
-    --clay: 25 45% 50%;
+    --warm-sand: 30 25% 80%;
+    --terracotta: 28 35% 45%;
+    --clay: 25 30% 40%;
     --warm-gray: 30 10% 40%;
-    --light-cream: 40 35% 95%;
+    --light-cream: 35 25% 92%;
     
     /* Gradients */
     --gradient-warm: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--clay)) 100%);
@@ -67,7 +67,7 @@ All colors MUST be HSL.
     --popover: 28 20% 12%;
     --popover-foreground: 36 33% 97%;
 
-    --primary: 18 65% 55%;
+    --primary: 28 35% 45%;
     --primary-foreground: 36 50% 98%;
 
     --secondary: 28 15% 20%;
@@ -84,7 +84,7 @@ All colors MUST be HSL.
 
     --border: 28 15% 20%;
     --input: 28 15% 20%;
-    --ring: 18 65% 55%;
+    --ring: 28 35% 45%;
   }
 }
 

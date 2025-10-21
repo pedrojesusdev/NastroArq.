@@ -8,14 +8,12 @@ const About = () => {
     {
       name: "Cecília Reis",
       role: "CEO e Arquiteta",
-      image: ceciliaReis,
-      instagram: "_cecilia_reis"
+      image: ceciliaReis
     },
     {
       name: "Victor Batista",
       role: "CEO e Arquiteto",
-      image: victorBatista,
-      instagram: "victorbatista.arq"
+      image: victorBatista
     }
   ];
 
@@ -84,21 +82,25 @@ const About = () => {
                   <h3 className="text-2xl font-bold text-foreground mb-2">
                     {member.name}
                   </h3>
-                  <p className="text-primary font-medium mb-4">
+                  <p className="text-primary font-medium">
                     {member.role}
                   </p>
-                  <a 
-                    href={`https://www.instagram.com/${member.instagram}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-                  >
-                    <Instagram className="w-5 h-5" />
-                    <span>@{member.instagram}</span>
-                  </a>
                 </div>
               </div>
             ))}
+          </div>
+          
+          {/* Instagram centralizado */}
+          <div className="text-center mt-12 animate-fade-in">
+            <a 
+              href="https://www.instagram.com/nastro.arquitetura"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-foreground hover:text-primary transition-colors text-lg font-medium"
+            >
+              <Instagram className="w-6 h-6" />
+              <span>@nastro.arquitetura</span>
+            </a>
           </div>
         </div>
       </section>
