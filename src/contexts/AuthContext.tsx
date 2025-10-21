@@ -36,11 +36,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        
+
+        // Fast-path: admin by email
+        const adminEmail = 'nastro.arquitetura@gmail.com';
+        const email = session?.user?.email?.toLowerCase();
+        if (email === adminEmail) {
+          setIsAdmin(true);
+          setLoading(false);
+          return;
+        }
+
         // Check admin role after state is set
         if (session?.user) {
           setTimeout(() => {
-            checkAdminRole(session.user.id);
+            checkAdminRole(session.user!.id);
           }, 0);
         } else {
           setIsAdmin(false);
@@ -52,6 +61,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+
+      const adminEmail = 'nastro.arquitetura@gmail.com';
+      const email = session?.user?.email?.toLowerCase();
+      if (email === adminEmail) {
+        setIsAdmin(true);
+        setLoading(false);
+        return;
+      }
       
       if (session?.user) {
         checkAdminRole(session.user.id);

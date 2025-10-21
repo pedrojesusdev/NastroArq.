@@ -29,6 +29,17 @@ const Login = () => {
       return;
     }
 
+    // Verificar senha do admin
+    if (password !== 'Nastrosite') {
+      toast({
+        title: 'Senha incorreta',
+        description: 'Verifique a senha e tente novamente.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       // Tentar fazer login
       const { error: loginError, data } = await supabase.auth.signInWithPassword({
