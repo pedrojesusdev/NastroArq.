@@ -255,20 +255,6 @@ const Admin = () => {
           <h2 className="text-2xl font-bold text-foreground mb-6">
             Planilha de Contatos
           </h2>
-          <div className="w-full h-[600px] rounded-lg overflow-hidden">
-            <iframe
-              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQpqcHFjCxPqgZHjzEyN7RQXN-3Q7VmJQBYmXb0dqR1ZqXJhG7YgLXhCqr6KJh-hQ/pubhtml?widget=true&amp;headers=false"
-              className="w-full h-full border-0"
-              title="Planilha de Contatos"
-            />
-          </div>
-        </div>
-
-        {/* Google Sheets */}
-        <div className="bg-card rounded-2xl shadow-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-foreground mb-6">
-            Planilha de Contatos
-          </h2>
           <p className="text-muted-foreground mb-4">
             Visualize os contatos recebidos através do formulário. Para editar, clique no link abaixo da planilha.
           </p>
