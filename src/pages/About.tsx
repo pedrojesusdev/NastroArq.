@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import victorBatista from "@/assets/victor-batista.jpg";
-import ceciliaReis from "@/assets/cecilia-reis.jpg";
+import ceciliaReis from "@/assets/cecilia-reis-new.jpg";
 import { Instagram } from "lucide-react";
 
 const About = () => {

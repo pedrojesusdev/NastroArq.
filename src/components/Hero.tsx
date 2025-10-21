@@ -10,14 +10,15 @@ const Hero = () => {
         className="absolute inset-0 bg-cover bg-no-repeat"
         style={{ 
           backgroundImage: `url(${heroImage})`,
-          backgroundPosition: '45% 60%'
+          backgroundPosition: '45% 60%',
+          marginTop: '56px'
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
       </div>
       
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up mt-14">
         <p className="text-primary-foreground/90 text-sm sm:text-base font-light tracking-widest uppercase mb-4">
           Arquitetura e design de interiores
         </p>
