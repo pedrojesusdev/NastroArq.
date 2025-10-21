@@ -259,11 +259,41 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* Google Sheets */}
+        <div className="bg-card rounded-2xl shadow-lg p-8 mb-12">
+          <h2 className="text-2xl font-bold text-foreground mb-6">
+            Planilha de Contatos
+          </h2>
+          <p className="text-muted-foreground mb-4">
+            Visualize os contatos recebidos através do formulário. Para editar, clique no link abaixo da planilha.
+          </p>
+          <div className="w-full rounded-lg overflow-hidden border border-border">
+            <iframe
+              src="https://docs.google.com/spreadsheets/d/1mSuXVcKOhZQ-_LyDp8nwwXC3DG8LRjdXcG7fZ_oVY1o/edit?usp=sharing"
+              className="w-full h-[600px] border-0"
+              title="Planilha de Contatos"
+            />
+          </div>
+          <div className="mt-4 text-center">
+            <a 
+              href="https://docs.google.com/spreadsheets/d/1mSuXVcKOhZQ-_LyDp8nwwXC3DG8LRjdXcG7fZ_oVY1o/edit"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 text-sm underline"
+            >
+              Abrir planilha em nova aba para editar
+            </a>
+          </div>
+        </div>
+
         {/* Projects List */}
         <div className="bg-card rounded-2xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-foreground mb-6">
-            Projetos Adicionados
+            Projetos Adicionados pelo Administrador
           </h2>
+          <p className="text-muted-foreground mb-6">
+            Aqui você pode adicionar novos projetos que aparecerão na página de projetos junto com os projetos padrão.
+          </p>
 
           <div className="space-y-4">
             {projects.map((project) => (

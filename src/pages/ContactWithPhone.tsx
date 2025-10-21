@@ -132,10 +132,25 @@ const Contact = () => {
               <div>
                 <h3 className="font-bold text-foreground mb-2">Localização</h3>
                 <p className="text-muted-foreground">
-                  São José dos Campos, SP
+                  Aracaju/SE
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Admin Access */}
+      <section className="py-8 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/login'}
+              className="animate-fade-in"
+            >
+              Entrar como Administrador
+            </Button>
           </div>
         </div>
       </section>

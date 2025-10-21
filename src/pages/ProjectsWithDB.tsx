@@ -3,6 +3,11 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import projectBar from "@/assets/project-bar.png";
+import projectBedroom from "@/assets/project-bedroom.png";
+import projectKitchen from "@/assets/project-kitchen.png";
+import projectLiving1 from "@/assets/project-living1.png";
+import projectLiving2 from "@/assets/project-living2.png";
 
 interface Project {
   id: string;
@@ -14,9 +19,47 @@ interface Project {
 
 const Projects = () => {
   const { toast } = useToast();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [dbProjects, setDbProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  const defaultProjects: Project[] = [
+    {
+      id: "default-1",
+      title: "Área Gourmet Moderna",
+      category: "Residencial",
+      image_url: projectBar,
+      description: "Espaço gourmet com design contemporâneo, combinando funcionalidade e conforto para momentos especiais."
+    },
+    {
+      id: "default-2",
+      title: "Suite Master Sofisticada",
+      category: "Residencial",
+      image_url: projectBedroom,
+      description: "Quarto com design moderno e materiais nobres, criando um ambiente de descanso e elegância."
+    },
+    {
+      id: "default-3",
+      title: "Cozinha Integrada",
+      category: "Residencial",
+      image_url: projectKitchen,
+      description: "Cozinha contemporânea com madeira natural e iluminação premium, unindo beleza e funcionalidade."
+    },
+    {
+      id: "default-4",
+      title: "Living Minimalista",
+      category: "Residencial",
+      image_url: projectLiving1,
+      description: "Sala de estar com design clean e linhas modernas, proporcionando amplitude e sofisticação."
+    },
+    {
+      id: "default-5",
+      title: "Sala de Estar Acolhedora",
+      category: "Residencial",
+      image_url: projectLiving2,
+      description: "Ambiente integrado com madeira e iluminação cênica, criando um espaço acolhedor e elegante."
+    }
+  ];
 
   useEffect(() => {
     fetchProjects();
@@ -30,7 +73,7 @@ const Projects = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setProjects(data || []);
+      setDbProjects(data || []);
     } catch (error: any) {
       toast({
         title: 'Erro ao carregar projetos',
@@ -41,6 +84,8 @@ const Projects = () => {
       setLoading(false);
     }
   };
+  
+  const allProjects = [...defaultProjects, ...dbProjects];
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,13 +113,9 @@ const Projects = () => {
             <div className="text-center py-12">
               <p className="text-muted-foreground">Carregando projetos...</p>
             </div>
-          ) : projects.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Nenhum projeto disponível no momento.</p>
-            </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
+              {allProjects.map((project, index) => (
                 <div 
                   key={project.id}
                   className="group animate-scale-in"

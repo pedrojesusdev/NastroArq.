@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation';
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('nastro.arquitetura@gmail.com');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -18,18 +18,65 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Verificar se é o email do admin
+    if (email !== 'nastro.arquitetura@gmail.com') {
+      toast({
+        title: 'Acesso negado',
+        description: 'Este email não tem permissão de administrador.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      // Tentar fazer login
+      const { error: loginError, data } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (loginError) {
+        // Se o usuário não existe, criar conta
+        if (loginError.message.includes('Invalid login credentials')) {
+          const { error: signupError } = await supabase.auth.signUp({
+            email,
+            password,
+          });
 
-      toast({
-        title: 'Login bem-sucedido!',
-        description: 'Você será redirecionado...',
-      });
+          if (signupError) throw signupError;
+
+          // Fazer login após criar conta
+          const { error: newLoginError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (newLoginError) throw newLoginError;
+
+          // Adicionar role de admin
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            await supabase.from('user_roles').insert({
+              user_id: user.id,
+              role: 'admin'
+            });
+          }
+
+          toast({
+            title: 'Conta criada!',
+            description: 'Login realizado com sucesso.',
+          });
+        } else {
+          throw loginError;
+        }
+      } else {
+        // Login bem-sucedido
+        toast({
+          title: 'Login bem-sucedido!',
+          description: 'Você será redirecionado...',
+        });
+      }
 
       navigate('/admin');
     } catch (error: any) {
@@ -53,6 +100,9 @@ const Login = () => {
             <h1 className="text-3xl font-bold text-foreground mb-6 text-center">
               Área do Administrador
             </h1>
+            <p className="text-sm text-muted-foreground text-center mb-6">
+              Apenas o administrador autorizado pode acessar esta área.
+            </p>
             
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
@@ -63,7 +113,8 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="mt-2"
+                  readOnly
+                  className="mt-2 bg-muted cursor-not-allowed"
                 />
               </div>
 
