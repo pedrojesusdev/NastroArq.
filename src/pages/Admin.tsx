@@ -32,6 +32,7 @@ const Admin = () => {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -65,6 +66,17 @@ const Admin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validação: imagem é obrigatória para novos projetos
+    if (!editingId && !imageFile) {
+      toast({
+        title: 'Imagem obrigatória',
+        description: 'Por favor, selecione uma imagem para o projeto.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setUploading(true);
 
     try {
@@ -117,6 +129,7 @@ const Admin = () => {
 
       setFormData({ title: '', category: '', description: '', image_url: '' });
       setImageFile(null);
+      setImagePreview('');
       setEditingId(null);
       fetchProjects();
     } catch (error: any) {
@@ -139,6 +152,7 @@ const Admin = () => {
       image_url: project.image_url,
     });
     setImageFile(null);
+    setImagePreview(project.image_url);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -235,7 +249,9 @@ const Admin = () => {
             </div>
 
             <div>
-              <Label htmlFor="image">Imagem do Projeto</Label>
+              <Label htmlFor="image">
+                Imagem do Projeto {!editingId && <span className="text-destructive">*</span>}
+              </Label>
               <Input
                 id="image"
                 type="file"
@@ -244,19 +260,25 @@ const Admin = () => {
                   const file = e.target.files?.[0];
                   if (file) {
                     setImageFile(file);
+                    // Criar preview da imagem
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setImagePreview(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
                   }
                 }}
                 className="mt-2"
               />
-              {editingId && formData.image_url && !imageFile && (
-                <p className="text-sm text-muted-foreground mt-2">
-                  Imagem atual: {formData.image_url.split('/').pop()}
-                </p>
-              )}
-              {imageFile && (
-                <p className="text-sm text-muted-foreground mt-2">
-                  Nova imagem selecionada: {imageFile.name}
-                </p>
+              {imagePreview && (
+                <div className="mt-4">
+                  <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    className="w-48 h-48 object-cover rounded-lg border border-border"
+                  />
+                </div>
               )}
             </div>
 
@@ -273,8 +295,17 @@ const Admin = () => {
             </div>
 
             <div className="flex gap-4">
-              <Button type="submit" size="lg" disabled={uploading}>
-                {uploading ? 'Enviando...' : editingId ? 'Salvar Alterações' : 'Adicionar Projeto'}
+              <Button type="submit" size="lg" disabled={uploading} className="min-w-[200px]">
+                {uploading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin">⏳</span> Salvando...
+                  </span>
+                ) : (
+                  <>
+                    {editingId ? <Edit2 className="mr-2 h-4 w-4" /> : <Plus className="mr-2 h-4 w-4" />}
+                    {editingId ? 'Salvar Alterações' : 'Adicionar Projeto'}
+                  </>
+                )}
               </Button>
               {editingId && (
                 <Button
@@ -284,6 +315,7 @@ const Admin = () => {
                   onClick={() => {
                     setEditingId(null);
                     setImageFile(null);
+                    setImagePreview('');
                     setFormData({ title: '', category: '', description: '', image_url: '' });
                   }}
                 >
@@ -323,51 +355,74 @@ const Admin = () => {
 
         {/* Projects List */}
         <div className="bg-card rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-foreground mb-6">
-            Projetos Adicionados pelo Administrador
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            Aqui você pode adicionar novos projetos que aparecerão na página de projetos junto com os projetos padrão.
-          </p>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground mb-2">
+                Projetos Cadastrados
+              </h2>
+              <p className="text-muted-foreground">
+                Total: {projects.length} {projects.length === 1 ? 'projeto' : 'projetos'}
+              </p>
+            </div>
+          </div>
 
-          <div className="space-y-4">
+          <div className="grid gap-6">
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="flex items-center gap-4 p-4 bg-background rounded-lg"
+                className="flex flex-col md:flex-row gap-6 p-6 bg-background rounded-xl border border-border hover:border-primary/50 transition-colors"
               >
                 <img
                   src={project.image_url}
                   alt={project.title}
-                  className="w-24 h-24 object-cover rounded-lg"
+                  className="w-full md:w-48 h-48 object-cover rounded-lg"
                 />
-                <div className="flex-1">
-                  <h3 className="font-bold text-foreground">{project.title}</h3>
-                  <p className="text-sm text-muted-foreground">{project.category}</p>
+                <div className="flex-1 space-y-3">
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-1">{project.title}</h3>
+                    <p className="text-sm text-primary font-medium">{project.category}</p>
+                  </div>
+                  <p className="text-sm text-muted-foreground line-clamp-3">
+                    {project.description}
+                  </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex md:flex-col gap-2">
                   <Button
                     variant="outline"
-                    size="icon"
+                    className="flex-1 md:flex-none"
                     onClick={() => handleEdit(project)}
                   >
-                    <Edit2 className="h-4 w-4" />
+                    <Edit2 className="h-4 w-4 mr-2" />
+                    Editar
                   </Button>
                   <Button
                     variant="destructive"
-                    size="icon"
+                    className="flex-1 md:flex-none"
                     onClick={() => handleDelete(project.id)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Excluir
                   </Button>
                 </div>
               </div>
             ))}
 
             {projects.length === 0 && (
-              <p className="text-center text-muted-foreground py-8">
-                Nenhum projeto cadastrado ainda.
-              </p>
+              <div className="text-center py-12 border-2 border-dashed border-border rounded-xl">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+                    <Plus className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-medium text-foreground mb-1">
+                      Nenhum projeto cadastrado
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Adicione seu primeiro projeto usando o formulário acima
+                    </p>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
