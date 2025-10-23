@@ -366,43 +366,47 @@ const Admin = () => {
             </div>
           </div>
 
-          <div className="grid gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="flex flex-col md:flex-row gap-6 p-6 bg-background rounded-xl border border-border hover:border-primary/50 transition-colors"
+                className="flex flex-col p-4 bg-background rounded-xl border border-border hover:border-primary/50 transition-colors animate-scale-in"
               >
                 <img
                   src={project.image_url}
                   alt={project.title}
-                  className="w-full md:w-48 h-48 object-cover rounded-lg"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
                 />
-                <div className="flex-1 space-y-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-1">{project.title}</h3>
-                    <p className="text-sm text-primary font-medium">{project.category}</p>
+                <div className="flex-1 flex flex-col">
+                  <div className="mb-3">
+                    <h3 className="text-lg font-bold text-foreground mb-2">{project.title}</h3>
+                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                      {project.category}
+                    </span>
                   </div>
-                  <p className="text-sm text-muted-foreground line-clamp-3">
+                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4 flex-1">
                     {project.description}
                   </p>
-                </div>
-                <div className="flex md:flex-col gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1 md:flex-none"
-                    onClick={() => handleEdit(project)}
-                  >
-                    <Edit2 className="h-4 w-4 mr-2" />
-                    Editar
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    className="flex-1 md:flex-none"
-                    onClick={() => handleDelete(project.id)}
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Excluir
-                  </Button>
+                  <div className="flex gap-2 mt-auto">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleEdit(project)}
+                    >
+                      <Edit2 className="h-4 w-4 mr-2" />
+                      Editar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => handleDelete(project.id)}
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Excluir
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
