@@ -173,7 +173,7 @@ const ProjectDetail = () => {
 
             <div className="mt-8 pt-8 border-t border-border">
               <h3 className="text-xl font-bold text-foreground mb-4">
-                Interessado neste projeto?
+                Interessado em projetos como esse?
               </h3>
               <p className="text-muted-foreground mb-6">
                 Entre em contato conosco para discutir como podemos criar algo semelhante para você.
