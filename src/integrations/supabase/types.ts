@@ -14,11 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      project_images: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string
+          project_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url: string
+          project_id: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_images_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           category: string
           created_at: string
           description: string
+          featured: boolean
           id: string
           image_url: string
           title: string
@@ -28,6 +61,7 @@ export type Database = {
           category: string
           created_at?: string
           description: string
+          featured?: boolean
           id?: string
           image_url: string
           title: string
@@ -37,6 +71,7 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string
+          featured?: boolean
           id?: string
           image_url?: string
           title?: string

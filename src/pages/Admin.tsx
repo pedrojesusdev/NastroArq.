@@ -16,6 +16,14 @@ interface Project {
   category: string;
   description: string;
   image_url: string;
+  featured: boolean;
+}
+
+interface ProjectImage {
+  id: string;
+  project_id: string;
+  image_url: string;
+  display_order: number;
 }
 
 const Admin = () => {
@@ -29,10 +37,13 @@ const Admin = () => {
     category: '',
     description: '',
     image_url: '',
+    featured: false,
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [additionalImages, setAdditionalImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [additionalPreviews, setAdditionalPreviews] = useState<string[]>([]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -82,7 +93,7 @@ const Admin = () => {
     try {
       let imageUrl = formData.image_url;
 
-      // Upload image if a new file was selected
+      // Upload main image if a new file was selected
       if (imageFile) {
         const fileExt = imageFile.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
@@ -94,13 +105,14 @@ const Admin = () => {
 
         if (uploadError) throw uploadError;
 
-        // Get public URL
         const { data: { publicUrl } } = supabase.storage
           .from('project-images')
           .getPublicUrl(filePath);
 
         imageUrl = publicUrl;
       }
+
+      let projectId = editingId;
 
       if (editingId) {
         const { error } = await supabase
@@ -109,27 +121,59 @@ const Admin = () => {
           .eq('id', editingId);
 
         if (error) throw error;
-
-        toast({
-          title: 'Projeto atualizado!',
-          description: 'As alterações foram salvas com sucesso.',
-        });
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('projects')
-          .insert([{ ...formData, image_url: imageUrl }]);
+          .insert([{ ...formData, image_url: imageUrl }])
+          .select()
+          .single();
 
         if (error) throw error;
-
-        toast({
-          title: 'Projeto criado!',
-          description: 'O novo projeto foi adicionado com sucesso.',
-        });
+        projectId = data.id;
       }
 
-      setFormData({ title: '', category: '', description: '', image_url: '' });
+      // Upload additional images
+      if (additionalImages.length > 0 && projectId) {
+        for (let i = 0; i < additionalImages.length; i++) {
+          const file = additionalImages[i];
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+          const filePath = `${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('project-images')
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('project-images')
+            .getPublicUrl(filePath);
+
+          const { error: imageError } = await supabase
+            .from('project_images')
+            .insert([{
+              project_id: projectId,
+              image_url: publicUrl,
+              display_order: i + 1
+            }]);
+
+          if (imageError) throw imageError;
+        }
+      }
+
+      toast({
+        title: editingId ? 'Projeto atualizado!' : 'Projeto criado!',
+        description: editingId 
+          ? 'As alterações foram salvas com sucesso.' 
+          : 'O novo projeto foi adicionado com sucesso.',
+      });
+
+      setFormData({ title: '', category: '', description: '', image_url: '', featured: false });
       setImageFile(null);
+      setAdditionalImages([]);
       setImagePreview('');
+      setAdditionalPreviews([]);
       setEditingId(null);
       fetchProjects();
     } catch (error: any) {
@@ -150,9 +194,12 @@ const Admin = () => {
       category: project.category,
       description: project.description,
       image_url: project.image_url,
+      featured: project.featured,
     });
     setImageFile(null);
+    setAdditionalImages([]);
     setImagePreview(project.image_url);
+    setAdditionalPreviews([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -248,9 +295,22 @@ const Admin = () => {
               />
             </div>
 
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="featured"
+                checked={formData.featured}
+                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                className="w-4 h-4 text-primary border-border rounded focus:ring-primary"
+              />
+              <Label htmlFor="featured" className="cursor-pointer">
+                Projeto em Destaque
+              </Label>
+            </div>
+
             <div>
               <Label htmlFor="image">
-                Imagem do Projeto {!editingId && <span className="text-destructive">*</span>}
+                Imagem Principal {!editingId && <span className="text-destructive">*</span>}
               </Label>
               <Input
                 id="image"
@@ -260,7 +320,6 @@ const Admin = () => {
                   const file = e.target.files?.[0];
                   if (file) {
                     setImageFile(file);
-                    // Criar preview da imagem
                     const reader = new FileReader();
                     reader.onloadend = () => {
                       setImagePreview(reader.result as string);
@@ -278,6 +337,52 @@ const Admin = () => {
                     alt="Preview" 
                     className="w-48 h-48 object-cover rounded-lg border border-border"
                   />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="additional-images">
+                Imagens Adicionais (Galeria)
+              </Label>
+              <Input
+                id="additional-images"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  setAdditionalImages(files);
+                  
+                  const previews: string[] = [];
+                  files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      previews.push(reader.result as string);
+                      if (previews.length === files.length) {
+                        setAdditionalPreviews(previews);
+                      }
+                    };
+                    reader.readAsDataURL(file);
+                  });
+                }}
+                className="mt-2"
+              />
+              {additionalPreviews.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Previews ({additionalPreviews.length} imagens):
+                  </p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {additionalPreviews.map((preview, idx) => (
+                      <img 
+                        key={idx}
+                        src={preview} 
+                        alt={`Preview ${idx + 1}`} 
+                        className="w-full h-24 object-cover rounded-lg border border-border"
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -315,8 +420,10 @@ const Admin = () => {
                   onClick={() => {
                     setEditingId(null);
                     setImageFile(null);
+                    setAdditionalImages([]);
                     setImagePreview('');
-                    setFormData({ title: '', category: '', description: '', image_url: '' });
+                    setAdditionalPreviews([]);
+                    setFormData({ title: '', category: '', description: '', image_url: '', featured: false });
                   }}
                 >
                   Cancelar
@@ -379,7 +486,14 @@ const Admin = () => {
                 />
                 <div className="flex-1 flex flex-col">
                   <div className="mb-3">
-                    <h3 className="text-lg font-bold text-foreground mb-2">{project.title}</h3>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-bold text-foreground">{project.title}</h3>
+                      {project.featured && (
+                        <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 rounded-full font-medium">
+                          ⭐ Destaque
+                        </span>
+                      )}
+                    </div>
                     <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
                       {project.category}
                     </span>

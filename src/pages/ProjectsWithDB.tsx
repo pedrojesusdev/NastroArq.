@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +16,6 @@ interface Project {
 const Projects = () => {
   const { toast } = useToast();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -75,9 +75,10 @@ const Projects = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, index) => (
-                <div 
+                <Link
                   key={project.id}
-                  className="group animate-scale-in"
+                  to={`/projeto/${project.id}`}
+                  className="group animate-scale-in block"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="relative overflow-hidden rounded-2xl aspect-square shadow-lg">
@@ -86,32 +87,23 @@ const Projects = () => {
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <p className="text-primary-foreground/80 text-sm font-medium mb-2">
                         {project.category}
                       </p>
-                      <h3 className="text-2xl font-bold text-primary-foreground mb-3">
+                      <h3 className="text-2xl font-bold text-primary-foreground mb-2">
                         {project.title}
                       </h3>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setSelectedProject(selectedProject === project.id ? null : project.id)}
-                      >
-                        {selectedProject === project.id ? 'Ocultar Detalhes' : 'Ver Detalhes'}
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  {selectedProject === project.id && (
-                    <div className="mt-4 p-6 bg-card rounded-lg animate-fade-in">
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-primary-foreground/90 text-sm line-clamp-2 mb-3">
                         {project.description}
                       </p>
+                      <span className="inline-flex items-center text-primary-foreground text-sm font-medium group-hover:underline">
+                        Ver Projeto Completo →
+                      </span>
                     </div>
-                  )}
-                </div>
+                  </div>
+                </Link>
               ))}
             </div>
           )}
