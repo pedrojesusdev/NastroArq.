@@ -171,7 +171,7 @@ const ProjectDetail = () => {
               </p>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-border">
+            <div className="mt-12 pt-8 border-t border-border">
               <h3 className="text-xl font-bold text-foreground mb-4">
                 Interessado em projetos como esse?
               </h3>
